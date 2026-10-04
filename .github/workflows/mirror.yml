@@ -1,0 +1,45 @@
+name: Mirror PentAGI Docker Images
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - source: vxcontrol/pentagi
+            target: pentagi
+          - source: vxcontrol/pgvector
+            target: pgvector
+          - source: vxcontrol/scraper
+            target: scraper
+
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull Docker Hub image
+        run: |
+          docker pull ${{ matrix.source }}:latest
+
+      - name: Tag image for GHCR
+        run: |
+          docker tag \
+            ${{ matrix.source }}:latest \
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.target }}:latest
+
+      - name: Push image to GHCR
+        run: |
+          docker push \
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.target }}:latest
