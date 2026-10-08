@@ -1,80 +1,113 @@
-rm README.md && cat > README.md <<'EOF'
-# IT 运维监控平台
+# IT Operations Monitoring Platform
 
-基于 Linux、Python Flask、JavaScript、Shell 和 systemd 构建的服务器运维监控平台，实现服务器资源监控、服务状态检测、分级告警以及 Nginx 自动故障恢复。
+> A lightweight Linux server monitoring and automatic recovery platform built with Python, Flask, systemd, and a web-based dashboard.
 
-## 一、项目简介
+一个面向 Linux 服务器运维场景的轻量级监控与自动故障恢复平台，用于实时查看服务器资源状态、关键服务运行状态，并通过 systemd 定时检测和自动恢复异常服务。
 
-本项目模拟企业服务器运维场景，在 Ubuntu Server 环境中搭建 IT 运维监控平台。
+## 📌 Project Overview
 
-通过 Flask 提供监控 API，结合 psutil 获取服务器 CPU、内存、磁盘等资源信息，同时通过 systemd 检查 Nginx、MySQL、Docker 等服务运行状态。
+本项目以 Ubuntu Server 为运行环境，模拟实际 IT 运维中的服务器监控与故障处理场景。
 
-项目进一步结合 systemd Timer 和 Shell 脚本，实现 Nginx 服务异常后的自动检测与恢复。
+系统通过 Python + Flask 提供监控 API，并结合 `psutil` 获取服务器 CPU、内存和磁盘使用情况，同时检查 Nginx、MySQL、Docker 等关键服务状态。
 
-## 二、技术栈
+当 Nginx 等关键服务异常时，systemd 定时任务负责检测服务状态并执行自动恢复，从而形成：
 
-- 操作系统：Ubuntu Server 26.04.1 LTS
-- 后端：Python、Flask
-- 系统监控：psutil
-- 前端：HTML、CSS、JavaScript
-- 服务管理：systemd
-- 自动化：Shell Script
-- Web 服务：Flask
-- 被监控服务：Nginx、MySQL、Docker
-- 虚拟化网络：VMware NAT
+```text
+服务器运行
+    │
+    ▼
+资源与服务监控
+    │
+    ├── CPU
+    ├── Memory
+    ├── Disk
+    ├── Nginx
+    ├── MySQL
+    └── Docker
+    │
+    ▼
+异常检测
+    │
+    ├── 正常
+    ├── 预警
+    └── 严重告警
+    │
+    ▼
+systemd 自动恢复
+    │
+    ▼
+日志记录
+```
 
-## 三、主要功能
+## ✨ Key Features
 
-### 1. 系统资源监控
+### 1. Server Resource Monitoring
 
-监控服务器：
+通过 Python `psutil` 获取服务器运行状态：
 
 - CPU 使用率
 - 内存使用率
 - 磁盘使用率
 - 系统运行时间
 
-### 2. 服务状态监控
+### 2. Linux Service Monitoring
 
-实时检查：
+监控关键 Linux 服务状态：
 
 - Nginx
 - MySQL
 - Docker
 
-### 3. 分级告警
+通过 `systemctl` 获取服务运行状态，并在 Web 页面进行展示。
 
-根据资源使用率进行分级：
+### 3. Web Monitoring Dashboard
 
-| CPU / 内存 / 磁盘 | 状态 |
-|---|---|
-| < 80% | 正常 |
-| 80% - 89% | 预警 |
-| ≥ 90% | 严重告警 |
+使用 HTML + CSS + JavaScript 构建前端监控页面。
 
-### 4. Nginx 自动故障恢复
+前端通过 Flask API 获取实时服务器数据，并展示：
 
-通过 systemd Timer 定期检查 Nginx：
+- CPU 使用率
+- 内存使用率
+- 磁盘使用率
+- 服务运行状态
+- 系统运行时间
+- 告警状态
+
+### 4. Automatic Service Recovery
+
+使用 Linux `systemd` 实现 Nginx 自动检测与恢复。
+
+核心组件：
 
 ```text
-systemd Timer
-      ↓
 nginx-recovery.service
-      ↓
-auto_recovery.sh
-      ↓
-检查 Nginx
-      ↓
-发现异常
-      ↓
-自动启动 Nginx
-实现 Nginx 服务自动恢复。
+        │
+        ▼
+检测 Nginx 状态
+        │
+        ├── active → 正常
+        │
+        └── inactive → 执行恢复
+                         │
+                         ▼
+                    systemctl restart nginx
 ```
 
-### 5. Web 可视化监控
+通过 `systemd timer` 定期执行检查，实现基础的故障自动恢复能力。
 
-通过浏览器访问：
+### 5. Monitoring Logs
 
-http://192.168.115.129:5000
+系统记录关键服务状态变化，例如：
 
-查看服务器资源、服务状态、告警信息和监控日志。
+```text
+active -> inactive
+inactive -> active
+```
+
+用于辅助故障排查和运维测试。
+
+---
+
+## 🛠️ Technology Stack
+
+| Category
