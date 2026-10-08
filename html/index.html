@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Operations Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>企业 IT 运维平台</h1>
+</header>
+
+<div class="container">
+
+    <div class="status-grid">
+
+        <div class="card">
+            <h3>CPU 使用率</h3>
+            <div class="status normal" id="cpu">读取中...</div>
+<div id="cpu-alert">状态：读取中...</div>
+        </div>
+
+        <div class="card">
+            <h3>内存使用率</h3>
+            <div class="status normal" id="memory">读取中...</div>
+<div id="memory-alert">状态：读取中...</div>
+        </div>
+
+        <div class="card">
+            <h3>磁盘使用率</h3>
+            <div class="status normal" id="disk">读取中...</div>
+<div id="disk-alert">状态：读取中...</div>
+        </div>
+
+        <div class="card">
+            <h3>服务器运行时间</h3>
+            <div class="status info" id="uptime">读取中...</div>
+        </div>
+
+    </div>
+
+<div class="card" style="margin-bottom: 20px;">
+    <strong>最后更新时间：</strong>
+    <span id="last-update">读取中...</span>
+</div>
+    <h2>核心服务状态</h2>
+<h2>服务器性能趋势</h2>
+
+<div class="card">
+    <h3>CPU 使用率</h3>
+<canvas id="cpu-chart" width="1000" height="300"></canvas>
+</div>
+<div class="card">
+    <h3>内存使用率</h3>
+    <canvas id="memory-chart" width="1000" height="300"></canvas>
+</div>
+
+<div class="card">
+    <h3>磁盘使用率</h3>
+    <canvas id="disk-chart" width="1000" height="300"></canvas>
+</div>
+    <div class="status-grid">
+        <div class="card">
+            <h3>Nginx</h3>
+            <div class="status" id="nginx">读取中...</div>
+        </div>
+
+        <div class="card">
+            <h3>MySQL</h3>
+            <div class="status" id="mysql">读取中...</div>
+        </div>
+
+        <div class="card">
+            <h3>Docker</h3>
+            <div class="status" id="docker">读取中...</div>
+        </div>
+    </div>
+
+</div>
+<h2>告警 / 事件历史</h2>
+
+<div class="card">
+    <div id="logs">正在加载日志...</div>
+</div>
+
+    <script src="js/monitor.js"></script>
+</body>
+</html>
